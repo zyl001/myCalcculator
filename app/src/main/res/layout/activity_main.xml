@@ -16,6 +16,7 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:text="@string/totalCount"
+            android:textSize="20dp"
             android:textColor="@color/colorAccent" />
 
         <EditText
@@ -36,7 +37,8 @@
         <TextView
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:text="@string/hundred" />
+            android:text="@string/hundred"
+            android:textSize="20dp"/>
 
         <EditText
             android:id="@+id/editText_hundred"
@@ -58,7 +60,8 @@
         <TextView
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:text="@string/fifty" />
+            android:text="@string/fifty"
+            android:textSize="20dp"/>
 
         <EditText
             android:id="@+id/editText_fifty"
@@ -80,7 +83,8 @@
         <TextView
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:text="@string/twenty" />
+            android:text="@string/twenty"
+            android:textSize="20dp"/>
 
         <EditText
             android:id="@+id/editText_twenty"
@@ -102,7 +106,8 @@
         <TextView
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:text="@string/ten" />
+            android:text="@string/ten"
+            android:textSize="20dp"/>
 
         <EditText
             android:id="@+id/editText_ten"
@@ -124,7 +129,8 @@
         <TextView
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:text="@string/five" />
+            android:text="@string/five"
+            android:textSize="20dp"/>
 
         <EditText
             android:id="@+id/editText_five"
@@ -146,7 +152,8 @@
         <TextView
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:text="@string/one" />
+            android:text="@string/one"
+            android:textSize="20dp"/>
 
         <EditText
             android:id="@+id/editText_one"
