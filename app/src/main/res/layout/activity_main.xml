@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="5dp">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:layout_height="50dp">
+
+        <TextView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:text="@string/totalCount"
+            android:textColor="@color/colorAccent" />
+
+        <EditText
+            android:id="@+id/editText_TotalCount"
+            android:layout_width="250dp"
+            android:layout_height="50dp"
+            android:inputType="number"
+            android:hint="@string/totalCountHint"
+            android:textColorHint="#FFE57E9F"
+            android:maxLength="10"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:layout_height="50dp">
+        <TextView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:text="@string/hundred" />
+
+        <EditText
+            android:id="@+id/editText_hundred"
+            android:layout_width="250dp"
+            android:layout_height="50dp"
+            android:inputType="number" />
+
+        <Switch
+            android:id="@+id/btnHundred"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:layout_height="50dp">
+        <TextView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:text="@string/fifty" />
+
+        <EditText
+            android:id="@+id/editText_fifty"
+            android:layout_width="250dp"
+            android:layout_height="50dp"
+            android:inputType="number" />
+
+        <Switch
+            android:id="@+id/btnFifty"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:layout_height="50dp">
+        <TextView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:text="@string/twenty" />
+
+        <EditText
+            android:id="@+id/editText_twenty"
+            android:layout_width="250dp"
+            android:layout_height="50dp"
+            android:inputType="number" />
+
+        <Switch
+            android:id="@+id/btnTwenty"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:layout_height="50dp">
+        <TextView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:text="@string/ten" />
+
+        <EditText
+            android:id="@+id/editText_ten"
+            android:layout_width="250dp"
+            android:layout_height="50dp"
+            android:inputType="number" />
+
+        <Switch
+            android:id="@+id/btnTen"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:layout_height="50dp">
+        <TextView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:text="@string/five" />
+
+        <EditText
+            android:id="@+id/editText_five"
+            android:layout_width="250dp"
+            android:layout_height="50dp"
+            android:inputType="number" />
+
+        <Switch
+            android:id="@+id/btnFive"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:layout_height="50dp">
+        <TextView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:text="@string/one" />
+
+        <EditText
+            android:id="@+id/editText_one"
+            android:layout_width="250dp"
+            android:layout_height="50dp"
+            android:inputType="number" />
+
+        <Switch
+            android:id="@+id/btnOne"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:layout_height="50dp">
+        <Button
+            android:id="@+id/btn_reset"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:text="清空"
+            android:onClick="btnReset_clicked"/>
+        <Button
+            android:id="@+id/btn_validate"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:text="验证" />
+
+        <Button
+            android:id="@+id/btn_calc"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:text="计算" />
+
+    </LinearLayout>
+
+
+</LinearLayout>

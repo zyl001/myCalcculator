@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">calc</string>
+    <string name="activity_title">calculator</string>
+    <string name="totalCount">总额</string>
+    <string name="totalCountHint">在这里输入总额</string>
+    <string name="hundred">一百</string>
+    <string name="fifty">五十</string>
+    <string name="twenty">二十</string>
+    <string name="ten">十块</string>
+    <string name="five">五块</string>
+    <string name="one">一块</string>
+
+</resources>
