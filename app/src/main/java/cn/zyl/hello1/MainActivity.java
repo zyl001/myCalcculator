@@ -29,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
     boolean []checkedStateArray;
     static int iTotalCount = 0;//输入或反向计算出的总金额
     EditText [] editTextArray;
+    Switch [] switchBtnArray;
     Map<Integer,Integer> mapSwitchIndex;//switch控件id -- 面额类型枚举
     EditText editText_totalCount;
     int iHundred = 0;
@@ -48,21 +49,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        editText_totalCount = findViewById(R.id.editText_TotalCount);
-        SwitchOnCheckedChangeListener checkedChangedHandler = new SwitchOnCheckedChangeListener();
-        Switch switchBtn;
-        switchBtn = findViewById(R.id.btnHundred);
-        switchBtn.setOnCheckedChangeListener(checkedChangedHandler);
-        switchBtn = findViewById(R.id.btnFifty);
-        switchBtn.setOnCheckedChangeListener(checkedChangedHandler);
-        switchBtn = findViewById(R.id.btnTwenty);
-        switchBtn.setOnCheckedChangeListener(checkedChangedHandler);
-        switchBtn = findViewById(R.id.btnTen);
-        switchBtn.setOnCheckedChangeListener(checkedChangedHandler);
-        switchBtn = findViewById(R.id.btnFive);
-        switchBtn.setOnCheckedChangeListener(checkedChangedHandler);
-        switchBtn = findViewById(R.id.btnOne);
-        switchBtn.setOnCheckedChangeListener(checkedChangedHandler);
+
         init();
         Button btnCalc = findViewById(R.id.btn_calc);
         btnCalc.setOnClickListener(new View.OnClickListener() {
@@ -83,40 +70,32 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(MainActivity.this, "输入数据只能包含数字,不能包含其他字符和空格", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                boolean bResult = false;
-                if (iCheckedCount == 0)
+                CheckResult result;
+                result = checkRandomDenominations();
+                if (result.absoluteNoSolution)
                 {
-                    //processAllRandomFun(iTotalCount);
-                    Vector<Integer> randomDenomation = checkRandomDenominations();
-                    bResult = processPartialRandom(iTotalCount,randomDenomation);
+                    Toast.makeText(MainActivity.this, "无解", Toast.LENGTH_SHORT).show();
+                    return;
                 }
                 else
                 {
-                    boolean result = false;
-                    Vector<Integer> randomDenomination = checkRandomDenominations();
-/*                    if(checkAbsoluteNoSolution(iTotalCount,randomDenomation))
+                    boolean bResult = false;
+                    for (int i=0;i<50;++i)
                     {
-                        Toast.makeText(MainActivity.this, "当前组合无解", Toast.LENGTH_SHORT).show();
-                        return;
-                    }*/
-                    for (int i =0;i<100;++i)
-                    {
-                        result = processPartialRandom(iTotalCount,randomDenomination);
-                        if (result)
-                        {
-                            bResult = true;
+                        bResult = processPartialRandom(result);
+                        if (bResult){
                             break;
                         }
                     }
-                }
 
-                if (bResult)
-                {
-                    showResult();
-                }
-                else
-                {
-                    Toast.makeText(MainActivity.this, "本次随机未找到合适组合，可再次尝试", Toast.LENGTH_SHORT).show();
+                    if (bResult)
+                    {
+                        showResult();
+                    }
+                    else
+                    {
+                        Toast.makeText(MainActivity.this, "本次随机未找到合适组合，可再次尝试", Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
         });
@@ -178,23 +157,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     //false计算无解,true计算成功
-    private boolean processPartialRandom(int iTotalCount,Vector<Integer> randomDenominationIndexVec) {
+    private boolean processPartialRandom(CheckResult param) {
         boolean result = false;
-        int iAssignedTotalValue = 0;//已分配总值
-        for(int i =0;i<checkedStateArray.length;++i)
+        int iRemainTotal = param.unAssignedTotalValue;//未分配剩余总值
+        for (int i = 0;i<param.randomDenominationIndexVec.size();++i)
         {
-            if (checkedStateArray[i])
-            {
-                iAssignedTotalValue += valueArray[i]*numberArray[i];
-            }
-        }
-        int iRemainTotal = iTotalCount - iAssignedTotalValue;//未分配剩余总值
-        for (int i = 0;i<randomDenominationIndexVec.size();++i)
-        {
-            int iDenominationIndex =  randomDenominationIndexVec.get(i).intValue();
+            int iDenominationIndex =  param.randomDenominationIndexVec.get(i).intValue();
             int currentValue = valueArray[iDenominationIndex];
 
-            if (i ==0 && i == randomDenominationIndexVec.size()-1) {
+            if (i ==0 && i == param.randomDenominationIndexVec.size()-1) {
                 int tempNum = iRemainTotal/currentValue;
                 iRemainTotal = iRemainTotal % currentValue;
                 if (iRemainTotal != 0) {
@@ -209,8 +180,8 @@ public class MainActivity extends AppCompatActivity {
                 numberArray[iDenominationIndex] = iRemainTotal/currentValue;
                 iRemainTotal = iRemainTotal % currentValue;
             }
-            else if (i == randomDenominationIndexVec.size() -1) {
-                int iLastDenominationIndex =  randomDenominationIndexVec.get(i-1).intValue();
+            else if (i == param.randomDenominationIndexVec.size() -1) {
+                int iLastDenominationIndex =  param.randomDenominationIndexVec.get(i-1).intValue();
                 int randomNum = random(numberArray[iLastDenominationIndex]);
                 numberArray[iLastDenominationIndex] -= randomNum;
                 iRemainTotal += randomNum*valueArray[iLastDenominationIndex];
@@ -226,7 +197,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
             else {
-                int iLastDenominationIndex =  randomDenominationIndexVec.get(i-1).intValue();
+                int iLastDenominationIndex =  param.randomDenominationIndexVec.get(i-1).intValue();
                 int randomNum = random(numberArray[iLastDenominationIndex]);
                 numberArray[iLastDenominationIndex] -= randomNum;
                 iRemainTotal += randomNum*valueArray[iLastDenominationIndex];
@@ -237,30 +208,32 @@ public class MainActivity extends AppCompatActivity {
         return result;
     }
 
-    //true 绝对无解,false 可能有解
-    private boolean checkAbsoluteNoSolution(int iTotalCount,Vector<Integer> randomDenominationIndexVec){
-        int iSize = randomDenominationIndexVec.size();
-        if ( iSize > 0 )
-        {
-            int iDenominationIndex =  randomDenominationIndexVec.get(iSize-1).intValue();
-            int currentValue = valueArray[iDenominationIndex];
-            if (iTotalCount%currentValue != 0){
-                return true;
-            }
-        }
-        return false;
-    }
-
-    private Vector<Integer> checkRandomDenominations(){
+    private CheckResult checkRandomDenominations(){
+        CheckResult result = new CheckResult();
         Vector<Integer> randomDenominationIndexVec = new Vector<>();//待计算张数的面额向量
+        int assignedTotal = 0;
         for(int i =0;i<checkedStateArray.length;++i)
         {
             if (!checkedStateArray[i])
             {
                 randomDenominationIndexVec.add(i);//面额大的在向量的前面
             }
+            else{
+                assignedTotal += numberArray[i]*valueArray[i];
+            }
         }
-        return randomDenominationIndexVec;
+        result.unAssignedTotalValue = iTotalCount - assignedTotal;
+        result.randomDenominationIndexVec = randomDenominationIndexVec;
+        if (result.randomDenominationIndexVec.size() > 0)
+        {
+            int denominationIndex = result.randomDenominationIndexVec.get(result.randomDenominationIndexVec.size()-1);
+            int minDenominationValue = valueArray[denominationIndex];
+            if (result.unAssignedTotalValue%minDenominationValue != 0)
+            {
+                result.absoluteNoSolution = true;
+            }
+        }
+        return result;
     }
 
     protected void showResult(){
@@ -272,25 +245,8 @@ public class MainActivity extends AppCompatActivity {
             strValue = Integer.toString(numberArray[denomination.ordinal()]);
             editText.setText(strValue.toCharArray(),0,strValue.length());
         }
-/*        editText = findViewById(R.id.editText_hundred);
-        strValue = Integer.toString(numberArray[Denominations.Hundred.ordinal()]);
-        editText.setText(strValue.toCharArray(),0,strValue.length());
-        editText = findViewById(R.id.editText_fifty);
-        strValue = Integer.toString(iFifty);
-        editText.setText(strValue.toCharArray(),0,strValue.length());
-        editText = findViewById(R.id.editText_twenty);
-        strValue = Integer.toString(iTwenty);
-        editText.setText(strValue.toCharArray(),0,strValue.length());
-        editText = findViewById(R.id.editText_ten);
-        strValue = Integer.toString(iTen);
-        editText.setText(strValue.toCharArray(),0,strValue.length());
-        editText = findViewById(R.id.editText_five);
-        strValue = Integer.toString(iFive);
-        editText.setText(strValue.toCharArray(),0,strValue.length());
-        editText = findViewById(R.id.editText_one);
-        strValue = Integer.toString(iOne);
-        editText.setText(strValue.toCharArray(),0,strValue.length());*/
     }
+
     private int random(int value){
         if (value == 0)
         {
@@ -374,7 +330,6 @@ public class MainActivity extends AppCompatActivity {
         editTextArray[Denominations.Five.ordinal()] = findViewById(R.id.editText_five);
         editTextArray[Denominations.One.ordinal()] = findViewById(R.id.editText_one);
 
-
         mapSwitchIndex = new HashMap<Integer, Integer>();
         mapSwitchIndex.put(R.id.btnHundred,Denominations.Hundred.ordinal());
         mapSwitchIndex.put(R.id.btnFifty,Denominations.Fifty.ordinal());
@@ -382,6 +337,29 @@ public class MainActivity extends AppCompatActivity {
         mapSwitchIndex.put(R.id.btnTen,Denominations.Ten.ordinal());
         mapSwitchIndex.put(R.id.btnFive,Denominations.Five.ordinal());
         mapSwitchIndex.put(R.id.btnOne,Denominations.One.ordinal());
+        editText_totalCount = findViewById(R.id.editText_TotalCount);
+
+        switchBtnArray = new Switch[Denominations.values().length];
+        SwitchOnCheckedChangeListener checkedChangedHandler = new SwitchOnCheckedChangeListener();
+        Switch switchBtn;
+        switchBtn = findViewById(R.id.btnHundred);
+        switchBtnArray[Denominations.Hundred.ordinal()] = switchBtn;
+        switchBtn.setOnCheckedChangeListener(checkedChangedHandler);
+        switchBtn = findViewById(R.id.btnFifty);
+        switchBtnArray[Denominations.Fifty.ordinal()] = switchBtn;
+        switchBtn.setOnCheckedChangeListener(checkedChangedHandler);
+        switchBtn = findViewById(R.id.btnTwenty);
+        switchBtnArray[Denominations.Twenty.ordinal()] = switchBtn;
+        switchBtn.setOnCheckedChangeListener(checkedChangedHandler);
+        switchBtn = findViewById(R.id.btnTen);
+        switchBtnArray[Denominations.Ten.ordinal()] = switchBtn;
+        switchBtn.setOnCheckedChangeListener(checkedChangedHandler);
+        switchBtn = findViewById(R.id.btnFive);
+        switchBtnArray[Denominations.Five.ordinal()] = switchBtn;
+        switchBtn.setOnCheckedChangeListener(checkedChangedHandler);
+        switchBtn = findViewById(R.id.btnOne);
+        switchBtnArray[Denominations.One.ordinal()] = switchBtn;
+        switchBtn.setOnCheckedChangeListener(checkedChangedHandler);
     }
 
     private boolean handleSwitchBtnChecked(CompoundButton button, boolean bChecked){
@@ -404,6 +382,7 @@ public class MainActivity extends AppCompatActivity {
                 button.setChecked(false);
                 return false;
             }
+            editTextArray[index].setEnabled(false);
             int num = Integer.parseInt(strValue);
             numberArray[index] = num;
             checkedStateArray[index] = true;
@@ -412,12 +391,11 @@ public class MainActivity extends AppCompatActivity {
                 checkedStateArray[index] = false;
                 return false;
             }
-            iCheckedCount++;
         }
         else
         {
             checkedStateArray[index] = false;
-            iCheckedCount--;
+            editTextArray[index].setEnabled(true);
         }
         return true;
     }
@@ -430,5 +408,10 @@ public class MainActivity extends AppCompatActivity {
             }
             handleSwitchBtnChecked(button, isChecked);
         }
+    }
+    private class CheckResult{
+        Vector<Integer> randomDenominationIndexVec;//面额索引,
+        boolean absoluteNoSolution = false;//true绝对无解,false可能有解
+        int unAssignedTotalValue = 0;//未分配的总值
     }
 }
