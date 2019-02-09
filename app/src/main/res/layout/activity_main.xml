@@ -6,28 +6,32 @@
     android:orientation="vertical"
     android:padding="5dp">
 
-
     <LinearLayout
         android:layout_width="match_parent"
         android:orientation="horizontal"
         android:layout_height="50dp">
 
         <TextView
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width= "wrap_content"
+            android:layout_height="wrap_content"
             android:text="@string/totalCount"
             android:textSize="20dp"
-            android:textColor="@color/colorAccent" />
+            android:textColor="@color/colorAccent"
+            android:maxWidth="50dp"
+            android:minWidth="40dp" />
 
+        <!--有权重时宽度设置为0是为了优化性能-->
         <EditText
             android:id="@+id/editText_TotalCount"
-            android:layout_width="250dp"
-            android:layout_height="50dp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="40dp"
             android:inputType="number"
             android:hint="@string/totalCountHint"
             android:textColorHint="#FFE57E9F"
             android:maxLength="10"/>
-
     </LinearLayout>
 
     <LinearLayout
@@ -35,15 +39,17 @@
         android:orientation="horizontal"
         android:layout_height="50dp">
         <TextView
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:text="@string/hundred"
             android:textSize="20dp"/>
 
         <EditText
             android:id="@+id/editText_hundred"
-            android:layout_width="250dp"
+            android:layout_width="0dp"
             android:layout_height="50dp"
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp"
             android:inputType="number" />
 
         <Switch
@@ -58,16 +64,18 @@
         android:orientation="horizontal"
         android:layout_height="50dp">
         <TextView
-            android:layout_width="50dp"
+            android:layout_width="wrap_content"
             android:layout_height="50dp"
             android:text="@string/fifty"
-            android:textSize="20dp"/>
+            android:textSize="20dp" />
 
         <EditText
             android:id="@+id/editText_fifty"
             android:layout_width="250dp"
             android:layout_height="50dp"
-            android:inputType="number" />
+            android:inputType="number"
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp"/>
 
         <Switch
             android:id="@+id/btnFifty"
@@ -81,15 +89,17 @@
         android:orientation="horizontal"
         android:layout_height="50dp">
         <TextView
-            android:layout_width="50dp"
+            android:layout_width="wrap_content"
             android:layout_height="50dp"
             android:text="@string/twenty"
-            android:textSize="20dp"/>
+            android:textSize="20dp" />
 
         <EditText
             android:id="@+id/editText_twenty"
             android:layout_width="250dp"
             android:layout_height="50dp"
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp"
             android:inputType="number" />
 
         <Switch
@@ -104,16 +114,19 @@
         android:orientation="horizontal"
         android:layout_height="50dp">
         <TextView
-            android:layout_width="50dp"
+            android:layout_width="wrap_content"
             android:layout_height="50dp"
             android:text="@string/ten"
-            android:textSize="20dp"/>
+            android:textSize="20dp"
+            />
 
         <EditText
             android:id="@+id/editText_ten"
             android:layout_width="250dp"
             android:layout_height="50dp"
-            android:inputType="number" />
+            android:inputType="number"
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp"/>
 
         <Switch
             android:id="@+id/btnTen"
@@ -127,7 +140,7 @@
         android:orientation="horizontal"
         android:layout_height="50dp">
         <TextView
-            android:layout_width="50dp"
+            android:layout_width="wrap_content"
             android:layout_height="50dp"
             android:text="@string/five"
             android:textSize="20dp"/>
@@ -136,6 +149,8 @@
             android:id="@+id/editText_five"
             android:layout_width="250dp"
             android:layout_height="50dp"
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp"
             android:inputType="number" />
 
         <Switch
@@ -150,7 +165,7 @@
         android:orientation="horizontal"
         android:layout_height="50dp">
         <TextView
-            android:layout_width="50dp"
+            android:layout_width="wrap_content"
             android:layout_height="50dp"
             android:text="@string/one"
             android:textSize="20dp"/>
@@ -159,6 +174,8 @@
             android:id="@+id/editText_one"
             android:layout_width="250dp"
             android:layout_height="50dp"
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp"
             android:inputType="number" />
 
         <Switch
@@ -172,6 +189,10 @@
         android:layout_width="match_parent"
         android:orientation="horizontal"
         android:layout_height="50dp">
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"/>
         <Button
             android:id="@+id/btn_reset"
             android:layout_width="wrap_content"
@@ -182,7 +203,8 @@
             android:id="@+id/btn_validate"
             android:layout_width="wrap_content"
             android:layout_height="50dp"
-            android:text="验证" />
+            android:text="验证"
+            android:visibility="gone"/>
 
         <Button
             android:id="@+id/btn_calc"
